@@ -8,16 +8,16 @@
 
 packer {
   required_version = ">= 1.8.1"
-//  required_plugins {
-//    git = {
-//      version = ">= 0.4.2"
-//      source  = "github.com/ethanmdavidson/git"
-//    }
-//    vsphere = {
-//      version = ">= v1.2.0"
-//      source  = "github.com/hashicorp/vsphere"
-//    }
-//  }
+  required_plugins {
+    git = {
+      version = ">= 0.4.2"
+      source  = "github.com/ethanmdavidson/git"
+    }
+    vsphere = {
+      version = ">= v1.2.0"
+      source  = "github.com/hashicorp/vsphere"
+    }
+  }
 }
 
 //  BLOCK: data
