@@ -14,8 +14,8 @@ packer {
       source  = "github.com/ethanmdavidson/git"
     }
     vsphere = {
-      version = ">= v1.2.0"
-      source  = "github.com/hashicorp/vsphere"
+      version = ">= v1.0.7"
+      source  = "github.com/hashicorp/packer-plugin-vsphere"
     }
   }
 }
@@ -167,48 +167,6 @@ source "vsphere-iso" "linux-ubuntu" {
 build {
   sources = ["source.vsphere-iso.linux-ubuntu"]
 
-  provisioner "ansible" {
-    user          = var.build_username
-    playbook_file = "${path.cwd}/ansible/main.yml"
-    roles_path    = "${path.cwd}/ansible/roles"
-    ansible_env_vars = [
-      "ANSIBLE_CONFIG=${path.cwd}/ansible/ansible.cfg"
-    ]
-    extra_arguments = [
-      "--extra-vars", "display_skipped_hosts=false",
-      "--extra-vars", "BUILD_USERNAME=${var.build_username}",
-      "--extra-vars", "BUILD_SECRET='${var.build_key}'",
-      "--extra-vars", "ANSIBLE_USERNAME=${var.ansible_username}",
-      "--extra-vars", "ANSIBLE_SECRET='${var.ansible_key}'",
-    ]
-  }
-
-  post-processor "manifest" {
-    output     = local.manifest_output
-    strip_path = true
-    strip_time = true
-    custom_data = {
-      ansible_username         = var.ansible_username
-      build_username           = var.build_username
-      build_date               = local.build_date
-      build_version            = local.build_version
-      common_data_source       = var.common_data_source
-      common_vm_version        = var.common_vm_version
-      vm_cpu_cores             = var.vm_cpu_cores
-      vm_cpu_count             = var.vm_cpu_count
-      vm_disk_size             = var.vm_disk_size
-      vm_disk_thin_provisioned = var.vm_disk_thin_provisioned
-      vm_firmware              = var.vm_firmware
-      vm_guest_os_type         = var.vm_guest_os_type
-      vm_mem_size              = var.vm_mem_size
-      vm_network_card          = var.vm_network_card
-      vsphere_cluster          = var.vsphere_cluster
-      vsphere_datacenter       = var.vsphere_datacenter
-      vsphere_datastore        = var.vsphere_datastore
-      vsphere_endpoint         = var.vsphere_endpoint
-      vsphere_folder           = var.vsphere_folder
-    }
-  }
 
   dynamic "hcp_packer_registry" {
     for_each = var.common_hcp_packer_registry_enabled ? [1] : []
