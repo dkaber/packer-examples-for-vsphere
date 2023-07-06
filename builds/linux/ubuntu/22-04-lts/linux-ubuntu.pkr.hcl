@@ -15,7 +15,7 @@ packer {
     }
     vsphere = {
       version = ">= v1.0.7"
-      source  = "github.com/hashicorp/packer-plugin-vsphere"
+      source  = "github.com/hashicorp/vsphere"
     }
   }
 }
